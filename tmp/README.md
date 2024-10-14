@@ -1,4 +1,5 @@
 # MetroPCS
+Availability and estimated shipping dates of cell-phones sold by MetroPCS online.
 ## Storage
 <!-- TABLE_START --><!-- TABLE_END -->
 ## Tested Environment
