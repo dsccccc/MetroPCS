@@ -69,6 +69,7 @@ class MetroPCS:
             self._driver.get(self.APPLE_URL)
             WebDriverWait(self._driver, 20).until(EC.presence_of_element_located(('id', 'serverApp-state')))
             soup = BeautifulSoup(self._driver.page_source, from_encoding='utf-8', features='html.parser')
+            print(soup)
         except Exception:
             self._driver.quit()
             time.sleep(5)
@@ -78,7 +79,6 @@ class MetroPCS:
             return soup.find('script', attrs={'id': 'serverApp-state'}).get_text()
 
     def parser(self, content):
-        print(content)
         data = loads(content.replace('&q;', '"'))
         mappings = data['NGRX_TRANSFER_STATE_KEY']['device-compatibility']['mapping']
         len_name = max(len(mapping['name']) for mapping in mappings)
