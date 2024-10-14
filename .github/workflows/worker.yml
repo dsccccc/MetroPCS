@@ -51,7 +51,7 @@ jobs:
         uses: ad-m/github-push-action@master
         if: ${{ steps.commit.outputs.hasChange == 'true' }}
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.TOKEN }}
           branch: ${{ github.ref }}
 
           
