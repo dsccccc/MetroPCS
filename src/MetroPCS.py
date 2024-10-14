@@ -75,10 +75,10 @@ class MetroPCS:
             self._driver = webdriver.Chrome(self.options)
             return None
         else:
-            print(soup)
             return soup.find('script', attrs={'id': 'serverApp-state'}).get_text()
 
     def parser(self, content):
+        print(content)
         data = loads(content.replace('&q;', '"'))
         mappings = data['NGRX_TRANSFER_STATE_KEY']['device-compatibility']['mapping']
         len_name = max(len(mapping['name']) for mapping in mappings)
