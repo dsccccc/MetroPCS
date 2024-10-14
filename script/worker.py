@@ -3,6 +3,8 @@ def replacer(input_file: str = './tmp/README.md', output_file: str = 'README.md'
         data = f.read()
     with open(output_file, 'r') as f:
         table = f.read()
+    print(table)
+    print(data)
     data = data.replace(reg, table)
     with open(output_file, 'w') as f:
         f.write(table)
