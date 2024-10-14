@@ -16,7 +16,7 @@ jobs:
       modes: ${{ github.event.inputs.modes }}
       
       output_dir: ./
-      file_name: README.md
+      file_name: tmp.md
 
     steps:
       - uses: actions/checkout@v4
@@ -32,7 +32,7 @@ jobs:
 
       - name: Run
         run: |
-          python -m src.MetroPCS --modes $modes --output_dir $output_dir --file_name $file_name --table
+          python -m script.worker --modes $modes --output_dir $output_dir --file_name $file_name --table
 
       - name: Commit
         id: commit
