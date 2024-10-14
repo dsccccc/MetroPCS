@@ -32,7 +32,7 @@ jobs:
 
       - name: Run
         run: |
-          python -m script.worker --modes $modes --output_dir $output_dir --file_name $file_name --table
+          python -m script.worker --modes $modes --output_dir $output_dir --file_name $file_name
 
       - name: Commit
         id: commit
