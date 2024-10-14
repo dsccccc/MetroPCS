@@ -32,7 +32,7 @@ jobs:
 
       - name: Run
         run: |
-          python -m src.MetroPCS --modes $modes --output_dir $output_dir --file_name $file_name
+          python -m src.MetroPCS --modes $modes --output_dir $output_dir --file_name $file_name --table
 
       - name: Commit
         id: commit
