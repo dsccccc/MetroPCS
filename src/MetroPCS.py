@@ -116,7 +116,6 @@ class MetroPCS:
 
     def writer(self):
         with open(self.file_name, 'w+', encoding='utf-8') as f:
-            f.write('# MetroPCS\n')
             f.write(self.markdown)
 
     def wrapper(self):
