@@ -64,6 +64,10 @@ class MetroPCS:
             self._driver = webdriver.Chrome(self.options)
 
     def getter(self):
+        self._driver.get(self.APPLE_URL)
+        WebDriverWait(self._driver, 20).until(EC.presence_of_element_located(('id', 'serverApp-state')))
+        soup = BeautifulSoup(self._driver.page_source, from_encoding='utf-8', features='html.parser')
+        print(len(self._driver.page_source), self._driver.page_source)
         # noinspection PyBroadException
         try:
             self._driver.get(self.APPLE_URL)
