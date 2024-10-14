@@ -75,6 +75,7 @@ class MetroPCS:
             self._driver = webdriver.Chrome(self.options)
             return None
         else:
+            print(soup)
             return soup.find('script', attrs={'id': 'serverApp-state'}).get_text()
 
     def parser(self, content):
