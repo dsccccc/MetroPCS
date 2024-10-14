@@ -1,7 +1,6 @@
 # MetroPCS
 ## Storage
-<!-- TABLE_START -->
-<!-- TABLE_END -->
+<!-- TABLE_START --><!-- TABLE_END -->
 ## Tested Environment
 ✔ Ubuntu 22.04
 
