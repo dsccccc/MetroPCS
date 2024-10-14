@@ -1,4 +1,5 @@
 # MetroPCS
+Availability and estimated shipping dates of cell-phones sold by MetroPCS online.
 ## Storage
 |MetroPCS 10/14/2024|color|memory|eSIM|price|status|shipping from|shipping to|
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
