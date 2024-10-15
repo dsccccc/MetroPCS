@@ -1,8 +1,6 @@
 name: Worker
 
 on:
-  schedule:
-    - cron: '0 9-22 * * MON-FRI'
   workflow_dispatch:
     inputs:
       modes:
