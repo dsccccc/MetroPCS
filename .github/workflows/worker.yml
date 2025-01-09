@@ -5,7 +5,7 @@ on:
     inputs:
       modes:
         type: string
-        default: '["12","13","SE"]'
+        default: '["12","13","SE","14"]'
         description: Keywords to search for items.
         required: false
 
