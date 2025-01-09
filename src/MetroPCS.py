@@ -49,7 +49,7 @@ class MetroPCS:
         parser = argparse.ArgumentParser()
         parser.add_argument('--output_dir', type=str, default='./metro/data/', help='Directory of output files.')
         parser.add_argument('--file_name', type=str, default='metro.md', help='Name of output markdown file.')
-        parser.add_argument('--modes', type=str, default='["12","13","SE"]', help='Keywords to search for items.')
+        parser.add_argument('--modes', type=str, default='["12","13","SE","14"]', help='Keywords to search for items.')
         parser.add_argument('--proxy', type=str, default='', help='Whether connect through proxy.')
         parser.add_argument('--table', action='store_true', help='Whether output Markdown tables.')
         args = parser.parse_args()
