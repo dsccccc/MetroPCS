@@ -1,7 +1,7 @@
 # MetroPCS
 Availability and estimated shipping dates of cell-phones sold by MetroPCS online.
 ## Storage
-|MetroPCS 01/09/2025|color|memory|eSIM|price|status|shipping from|shipping to|
+|MetroPCS 01/10/2025|color|memory|eSIM|price|status|shipping from|shipping to|
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 |Apple iPhone 13|Midnight M1|128GB|True|49.99|AVAILABLE|01/09/2025|01/13/2025|
 |Apple iPhone 12|Black|64GB|True|0.00|NOT_AVAILABLE|01/16/2025|01/22/2025|
