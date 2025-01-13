@@ -5,7 +5,7 @@ Availability and estimated shipping dates of cell-phones sold by MetroPCS online
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 |Apple iPhone 13|Midnight M1|128GB|True|49.99|AVAILABLE|01/13/2025|01/16/2025|
 |Apple iPhone 14|Midnight|128GB|True|99.99|AVAILABLE|01/13/2025|01/16/2025|
-|Apple iPhone 12|Black|64GB|True|0.00|AVAILABLE|01/13/2025|01/16/2025|
+|Apple iPhone 12|Black|64GB|True|0.00|NOT_AVAILABLE|01/13/2025|01/16/2025|
 |Apple iPhone SE (3rd gen)|Midnight|64GB|True|0.00|AVAILABLE|01/13/2025|01/16/2025|
 
 ## Tested Environment
