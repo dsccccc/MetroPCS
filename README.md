@@ -5,7 +5,7 @@ Availability and estimated shipping dates of cell-phones sold by MetroPCS online
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 |Apple iPhone 13|Midnight M1|128GB|True|49.99|AVAILABLE|10/20/2025|10/23/2025|
 |Apple iPhone 14|Midnight|128GB|True|99.99|NOT_AVAILABLE|10/27/2025|10/30/2025|
-|Apple iPhone 14|Blue|128GB|True|99.99|NOT_AVAILABLE|10/20/2025|10/23/2025|
+|Apple iPhone 14|Blue|128GB|True|99.99|NOT_AVAILABLE|10/27/2025|10/30/2025|
 
 ## Tested Environment
 ✔ Ubuntu 22.04
