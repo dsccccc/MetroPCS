@@ -1,9 +1,9 @@
 # MetroPCS
 Availability and estimated shipping dates of cell-phones sold by MetroPCS online.
 ## Storage
-|MetroPCS 03/10/2026|color|memory|eSIM|price|status|shipping from|shipping to|
+|MetroPCS 03/11/2026|color|memory|eSIM|price|status|shipping from|shipping to|
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-|Apple iPhone 13|Midnight M1|128GB|True|0.00|AVAILABLE|03/10/2026|03/13/2026|
+|Apple iPhone 13|Midnight M1|128GB|True|0.00|AVAILABLE|03/11/2026|03/16/2026|
 
 ## Tested Environment
 ✔ Ubuntu 22.04
