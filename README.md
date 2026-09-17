@@ -4,11 +4,11 @@ Availability and estimated shipping dates of cell-phones sold by MetroPCS online
 |MetroPCS 09/17/2026|color|memory|eSIM|price|status|shipping from|shipping to|
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 |Apple iPhone 16e|Black|128GB|True|99.99|AVAILABLE|09/17/2026|09/21/2026|
-|Apple iPhone 17e|White|256GB|True|449.99|NOT_AVAILABLE|09/24/2026|09/28/2026|
-|Apple iPhone 17e|Black|256GB|True|449.99|NOT_AVAILABLE|09/24/2026|09/28/2026|
-|Apple iPhone 17e|Soft Pink|256GB|True|449.99|NOT_AVAILABLE|09/24/2026|09/28/2026|
-|Apple iPhone 17|Lavender|256GB|True|629.99|NOT_AVAILABLE|09/24/2026|09/28/2026|
-|Apple iPhone 17|Black|256GB|True|629.99|NOT_AVAILABLE|09/24/2026|09/28/2026|
+|Apple iPhone 17e|White|256GB|True|449.99|AVAILABLE|09/17/2026|09/21/2026|
+|Apple iPhone 17e|Black|256GB|True|449.99|AVAILABLE|09/17/2026|09/21/2026|
+|Apple iPhone 17e|Soft Pink|256GB|True|449.99|AVAILABLE|09/17/2026|09/21/2026|
+|Apple iPhone 17|Lavender|256GB|True|629.99|AVAILABLE|09/17/2026|09/21/2026|
+|Apple iPhone 17|Black|256GB|True|629.99|AVAILABLE|09/17/2026|09/21/2026|
 |Apple iPhone 17 Pro Max|Cosmic Orange|256GB|True|899.99|AVAILABLE|09/17/2026|09/21/2026|
 |Apple iPhone 17 Pro Max|Silver|256GB|True|899.99|AVAILABLE|09/17/2026|09/21/2026|
 |Apple iPhone 17 Pro|Cosmic Orange|256GB|True|799.99|AVAILABLE|09/17/2026|09/21/2026|
