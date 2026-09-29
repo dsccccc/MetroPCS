@@ -13,7 +13,7 @@ Availability and estimated shipping dates of cell-phones sold by MetroPCS online
 |Apple iPhone 18 Pro Max|Glacier|256GB|True|999.99|NOT_AVAILABLE|10/06/2026|10/09/2026|
 |Apple iPhone 18 Pro Max|Black|256GB|True|999.99|NOT_AVAILABLE|10/06/2026|10/09/2026|
 |Apple iPhone 17e|White|256GB|True|449.99|NOT_AVAILABLE|10/06/2026|10/09/2026|
-|Apple iPhone 17e|Black|256GB|True|449.99|NOT_AVAILABLE|10/06/2026|10/09/2026|
+|Apple iPhone 17e|Black|256GB|True|449.99|AVAILABLE|09/29/2026|10/02/2026|
 |Apple iPhone 17e|Soft Pink|256GB|True|449.99|AVAILABLE|09/29/2026|10/02/2026|
 |Apple iPhone 17|Lavender|256GB|True|729.99|AVAILABLE|09/29/2026|10/02/2026|
 |Apple iPhone 17|Black|256GB|True|729.99|AVAILABLE|09/29/2026|10/02/2026|
