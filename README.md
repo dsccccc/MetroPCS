@@ -1,11 +1,11 @@
 # MetroPCS
 Availability and estimated shipping dates of cell-phones sold by MetroPCS online.
 ## Storage
-|MetroPCS 10/02/2026|color|memory|eSIM|price|status|shipping from|shipping to|
+|MetroPCS 10/03/2026|color|memory|eSIM|price|status|shipping from|shipping to|
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 |Apple iPhone 16e|Black|128GB|True|99.99|AVAILABLE|10/02/2026|10/05/2026|
 |Apple iPhone 18 Pro|Burgundy|256GB|True|899.99|NOT_AVAILABLE|10/02/2026|10/05/2026|
-|Apple iPhone 18 Pro|Glacier|256GB|True|899.99|AVAILABLE|10/02/2026|10/05/2026|
+|Apple iPhone 18 Pro|Glacier|256GB|True|899.99|NOT_AVAILABLE|10/09/2026|10/12/2026|
 |Apple iPhone 18 Pro|Black|256GB|True|899.99|AVAILABLE|10/02/2026|10/05/2026|
 |Apple iPhone 18 Pro|Silver|256GB|True|899.99|AVAILABLE|10/02/2026|10/05/2026|
 |Apple iPhone 18 Pro Max|Burgundy|256GB|True|999.99|NOT_AVAILABLE|10/09/2026|10/12/2026|
