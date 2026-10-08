@@ -1,7 +1,7 @@
 # MetroPCS
 Availability and estimated shipping dates of cell-phones sold by MetroPCS online.
 ## Storage
-|MetroPCS 10/07/2026|color|memory|eSIM|price|status|shipping from|shipping to|
+|MetroPCS 10/08/2026|color|memory|eSIM|price|status|shipping from|shipping to|
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 |Apple iPhone 16e|Black|128GB|True|99.99|AVAILABLE|10/07/2026|10/12/2026|
 |Apple iPhone 17|Lavender|256GB|True|729.99|AVAILABLE|10/07/2026|10/12/2026|
