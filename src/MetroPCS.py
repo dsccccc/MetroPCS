@@ -1,5 +1,6 @@
 import argparse
 import json
+import math
 import time
 from html import unescape
 from pathlib import Path
@@ -21,6 +22,7 @@ class MetroPCS:
         self.output_dir: str = ''
         self.file_name: str = ''
         self.modes = None
+        self.max_price = 500.0
         self.proxy: str = ''
         self.table: bool = True
         self.markdown: str = ''
@@ -48,9 +50,14 @@ class MetroPCS:
         parser.add_argument('--output_dir', type=str, default='./metro/data/', help='Directory of output files.')
         parser.add_argument('--file_name', type=str, default='metro.md', help='Name of output markdown file.')
         parser.add_argument('--modes', type=str, default='["iPhone"]', help='Keywords to search for items.')
+        parser.add_argument('--max_price', type=float, default=500.0,
+                            help='Only include promotional prices strictly below this USD amount (default: 500).')
         parser.add_argument('--proxy', type=str, default='', help='Whether connect through proxy.')
         parser.add_argument('--table', action='store_true', help='Whether output Markdown tables.')
         args = parser.parse_args()
+        if not math.isfinite(args.max_price) or args.max_price <= 0:
+            parser.error('--max_price must be a finite number greater than zero')
+        self.max_price = args.max_price
         self.output_dir = args.output_dir
         self.file_name = self.output_dir + args.file_name
         self.modes = eval(args.modes)
@@ -245,6 +252,13 @@ class MetroPCS:
     def parser(self, rows):
         if not rows:
             raise RuntimeError('No products found; README was not updated')
+        rows = [row for row in rows if row['price'] < self.max_price]
+        self.markdown += f'Price filter: promotional price < ${self.max_price:g} USD.\n\n'
+        if not rows:
+            message = 'No products match the price filter.'
+            print(message)
+            self.markdown += message + '\n'
+            return
         len_name = max(len(row['name']) for row in rows)
         print(f'MetroPCS\t{time.strftime("%m/%d/%Y", time.localtime())}{" " * max(len_name - 16, 0)}\t'
               f'{"color":16s}\tmemory\teSIM\tprice\t{"status":13s}\t{"Shipping from":10s}\t{"to":10s}')

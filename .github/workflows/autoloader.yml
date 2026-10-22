@@ -2,6 +2,12 @@ name: Autoloader
 
 on:
   workflow_dispatch:
+    inputs:
+      max_price:
+        type: number
+        default: 500
+        description: Only include promotional prices strictly below this USD amount.
+        required: false
   schedule:
     - cron: '0 9-22 * * MON-FRI'
 
@@ -9,6 +15,7 @@ jobs:
   worker:
     runs-on: ubuntu-latest
     env:
+      max_price: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.max_price || '500' }}
       output_dir: ./
       file_name: tmp.md
 
@@ -26,7 +33,7 @@ jobs:
 
       - name: Run
         run: |
-          python -m script.worker --output_dir $output_dir --file_name $file_name
+          python -m script.worker --max_price "$max_price" --output_dir "$output_dir" --file_name "$file_name"
 
       - name: Upload scrape diagnostics
         if: failure()

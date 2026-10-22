@@ -3,6 +3,11 @@ name: Worker
 on:
   workflow_dispatch:
     inputs:
+      max_price:
+        type: number
+        default: 500
+        description: Only include promotional prices strictly below this USD amount.
+        required: false
       modes:
         type: string
         default: '["12","13","SE","14"]'
@@ -13,6 +18,7 @@ jobs:
   worker:
     runs-on: ubuntu-latest
     env:
+      max_price: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.max_price || '500' }}
       modes: ${{ github.event.inputs.modes }}
       
       output_dir: ./
@@ -32,7 +38,7 @@ jobs:
 
       - name: Run
         run: |
-          python -m script.worker --modes $modes --output_dir $output_dir --file_name $file_name
+          python -m script.worker --modes "$modes" --max_price "$max_price" --output_dir "$output_dir" --file_name "$file_name"
 
       - name: Upload scrape diagnostics
         if: failure()

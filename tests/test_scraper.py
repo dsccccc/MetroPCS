@@ -23,6 +23,7 @@ class ScraperTests(unittest.TestCase):
         scraper._driver = Mock()
         scraper.APPLE_URL = 'https://example.test/apple'
         scraper.markdown = ''
+        scraper.max_price = 500.0
         return scraper
 
     def test_names_ignore_templates_preserve_spaces_and_deduplicate(self):
@@ -85,6 +86,40 @@ class ScraperTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 replacer('', output_file=output)
             self.assertEqual(output.read_text(), 'existing products')
+
+    def test_price_filter_excludes_boundary_and_higher_prices(self):
+        scraper = self.scraper()
+        rows = [dict(name=f'Phone {price}', color='Black', memory='128GB',
+                     esim=True, price=price, status='AVAILABLE', shipping0='', shipping1='')
+                for price in [0, 499.99, 500, 500.01]]
+        scraper.parser(rows)
+        self.assertIn('|Phone 0|', scraper.markdown)
+        self.assertIn('|Phone 499.99|', scraper.markdown)
+        self.assertNotIn('|Phone 500|', scraper.markdown)
+        self.assertNotIn('|Phone 500.01|', scraper.markdown)
+        scraper.markdown = ''
+        scraper.max_price = 600
+        scraper.parser(rows)
+        self.assertIn('|Phone 500.01|', scraper.markdown)
+
+    def test_no_price_matches_is_not_a_scrape_failure(self):
+        scraper = self.scraper()
+        scraper.parser([{'name': 'Expensive phone', 'price': 999.99}])
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / 'README.md'
+            replacer(scraper.markdown, output_file=output)
+            self.assertIn('No products match the price filter.', output.read_text())
+
+    def test_price_argument_default_override_and_validation(self):
+        for arguments, expected in [([], 500), (['--max_price', '250.50'], 250.50)]:
+            with patch('sys.argv', ['worker'] + arguments):
+                scraper = self.scraper()
+                scraper.arg_parser()
+                self.assertEqual(scraper.max_price, expected)
+        for invalid in ['0', '-1', 'nan', 'inf', 'abc']:
+            with self.subTest(invalid=invalid), patch('sys.argv', ['worker', '--max_price', invalid]):
+                with patch('sys.stderr'), self.assertRaises(SystemExit):
+                    self.scraper().arg_parser()
 
     def test_product_name_reaches_readme(self):
         scraper = self.scraper()
