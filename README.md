@@ -5,11 +5,11 @@ Price filter: promotional price < $500 USD.
 
 |MetroPCS 10/22/2026|color|memory|eSIM|price|status|shipping from|shipping to|
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-|Apple iPhone 16e|Black|128GB|True|99.99|AVAILABLE|10/21/2026|10/26/2026|
-|Apple iPhone 15|Black|128GB|True|429.99|AVAILABLE|10/21/2026|10/26/2026|
-|Apple iPhone 17e|White|256GB|True|449.99|AVAILABLE|10/21/2026|10/26/2026|
-|Apple iPhone 17e|Black|256GB|True|449.99|AVAILABLE|10/21/2026|10/26/2026|
-|Apple iPhone 17e|Soft Pink|256GB|True|449.99|AVAILABLE|10/21/2026|10/26/2026|
+|Apple iPhone 16e|Black|128GB|True|99.99|AVAILABLE|10/22/2026|10/26/2026|
+|Apple iPhone 15|Black|128GB|True|429.99|AVAILABLE|10/22/2026|10/26/2026|
+|Apple iPhone 17e|White|256GB|True|449.99|AVAILABLE|10/22/2026|10/26/2026|
+|Apple iPhone 17e|Black|256GB|True|449.99|AVAILABLE|10/22/2026|10/26/2026|
+|Apple iPhone 17e|Soft Pink|256GB|True|449.99|AVAILABLE|10/22/2026|10/26/2026|
 
 ## Tested Environment
 ✔ Ubuntu 22.04
