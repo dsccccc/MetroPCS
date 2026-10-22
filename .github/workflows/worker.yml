@@ -34,6 +34,15 @@ jobs:
         run: |
           python -m script.worker --modes $modes --output_dir $output_dir --file_name $file_name
 
+      - name: Upload scrape diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scrape-diagnostics
+          path: diagnostics/
+          if-no-files-found: ignore
+          retention-days: 7
+
       - name: Commit
         id: commit
         run: |

@@ -1,6 +1,7 @@
 name: Autoloader
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 9-22 * * MON-FRI'
 
@@ -26,6 +27,15 @@ jobs:
       - name: Run
         run: |
           python -m script.worker --output_dir $output_dir --file_name $file_name
+
+      - name: Upload scrape diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scrape-diagnostics
+          path: diagnostics/
+          if-no-files-found: ignore
+          retention-days: 7
 
       - name: Commit
         id: commit

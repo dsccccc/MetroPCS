@@ -2,6 +2,7 @@ import argparse
 import json
 import time
 from html import unescape
+from pathlib import Path
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -32,11 +33,6 @@ class MetroPCS:
         options = Options()
         options.add_argument("--headless=new")
         options.add_argument("--window-size=1440,2000")
-        user_agent = (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-            "Chrome/128.0.0.0 Safari/537.36"
-        )
-        options.add_argument(f"user-agent={user_agent}")
         options.add_experimental_option('excludeSwitches', ['enable-logging', 'enable-automation'])
         # capture XHR responses (pricing / availability API) via CDP performance logs
         options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
@@ -66,34 +62,60 @@ class MetroPCS:
             self._driver = self._new_driver()
 
     def _get_families(self):
-        """Load the brand listing page and extract product families from the
-        server-rendered product cards."""
-        # noinspection PyBroadException
+        """Wait for populated product cards, not just the grid's empty shell."""
+        for attempt in range(3):
+            try:
+                self._driver.get(self.APPLE_URL)
+
+                def loaded_families(driver):
+                    if 'access denied' in driver.title.lower():
+                        raise RuntimeError('Metro blocked the listing request (Access Denied)')
+                    return self._parse_families(driver.page_source)
+
+                families = WebDriverWait(self._driver, 30).until(loaded_families)
+                print(f'Loaded {len(families)} Apple product families.')
+                return families
+            except Exception as exc:
+                print(f'Listing attempt {attempt + 1}/3 failed: {type(exc).__name__}: {exc}')
+                self._save_diagnostics()
+                if attempt == 2:
+                    raise RuntimeError('Unable to load Apple product names; README was not updated') from exc
+                time.sleep(5)
+
+    def _save_diagnostics(self):
+        """Keep the failed page available as a GitHub Actions artifact."""
         try:
-            self._driver.get(self.APPLE_URL)
-            WebDriverWait(self._driver, 30).until(
-                lambda d: d.find_elements('css selector', 'li[data-upf-product-grid-item]'))
-            soup = BeautifulSoup(self._driver.page_source, from_encoding='utf-8', features='html.parser')
-        except Exception:
-            self._driver.quit()
-            time.sleep(5)
-            self._driver = self._new_driver()
-            return None
+            directory = Path(self.output_dir or '.') / 'diagnostics'
+            directory.mkdir(parents=True, exist_ok=True)
+            (directory / 'listing.html').write_text(self._driver.page_source, encoding='utf-8')
+            print(f'Failed page: {self._driver.current_url} ({self._driver.title})')
+            self._driver.save_screenshot(str(directory / 'listing.png'))
+        except Exception as exc:
+            print(f'Could not save diagnostics: {exc}')
+
+    @classmethod
+    def _parse_families(cls, html):
+        soup = BeautifulSoup(html, features='html.parser')
         families = []
-        for card in soup.select('li[data-upf-product-grid-item]'):
-            brand = self._visible_text(card, '.upf-productCard__title--brand')
-            model = self._visible_text(card, '.upf-productCard__title--model')
-            link = card.select_one('a.upf-productCard__content-link[href]')
-            if not (brand and model and link):
+        seen = set()
+        for card in soup.select('li[data-upf-product-grid-item], [data-testid="product-card"]'):
+            if card.find_parent('template') is not None:
                 continue
-            # the listing page renders the full catalog; keep the brand this repo tracks
-            if brand != 'Apple':
+            brand = cls._visible_text(card, '.upf-productCard__title--brand, [data-testid="product-card-manufacturer"]')
+            model = cls._visible_text(card, '.upf-productCard__title--model, [data-testid="product-card-name"]')
+            link = next((el for el in card.select('a.upf-productCard__content-link[href], a.product-card__link[href]')
+                         if el.find_parent('template') is None and el['href'].strip()), None)
+            if not (brand and model and link) or brand.casefold() != 'apple':
                 continue
+            url = link['href']
+            if url in seen:
+                continue
+            seen.add(url)
             families.append({
                 'name': f'{brand} {model}',
-                'sku': card.get('data-upf-plp-card-sku', ''),
+                'sku': card.get('data-upf-plp-card-sku') or card.get('data-sku', ''),
                 'family_code': card.get('data-upf-plp-card-family-code', ''),
-                'url': link['href'],
+                'url': url,
                 'esim': 'eSIM' in (card.get('data-upf-plp-card-filter') or ''),
             })
         return families
@@ -102,8 +124,11 @@ class MetroPCS:
     def _visible_text(card, selector: str) -> str:
         """First non-empty match that is not inside an unrendered <template> block."""
         for el in card.select(selector):
-            if el.find_parent('template') is None and el.get_text(strip=True):
-                return el.get_text(strip=True)
+            if el.find_parent('template') is None:
+                text = ' '.join(el.stripped_strings)
+                text = ' '.join(text.split())
+                if text:
+                    return text
         return ''
 
     def _get_family_details(self, family):
@@ -130,18 +155,41 @@ class MetroPCS:
             if api_json is not None:
                 break
             time.sleep(0.5)
-        variants = {}
-        # noinspection PyBroadException
-        try:
-            raw = self._driver.execute_script(
-                "const el = document.querySelector('.upf-skuSelector');"
-                "return el ? el.getAttribute('data-upf-variants') : null;")
-            if raw:
-                for variant in json.loads(unescape(raw)):
-                    variants[variant['sku']] = variant
-        except Exception:
-            pass
+        variants = self._parse_variants(self._driver.page_source)
         return api_json, variants
+
+    @staticmethod
+    def _decode_astro(value):
+        """Decode the object/array tags used by Astro's product props."""
+        tag, data = value
+        if tag == 0:
+            if isinstance(data, dict):
+                return {key: MetroPCS._decode_astro(item) for key, item in data.items()}
+            return data
+        if tag == 1:
+            return [MetroPCS._decode_astro(item) for item in data]
+        raise ValueError(f'Unsupported Astro product data tag: {tag}')
+
+    @classmethod
+    def _parse_variants(cls, html):
+        soup = BeautifulSoup(html, features='html.parser')
+        variants = {}
+        legacy = soup.select_one('.upf-skuSelector[data-upf-variants]')
+        if legacy:
+            for variant in json.loads(unescape(legacy['data-upf-variants'])):
+                variants[variant['sku']] = variant
+        island = soup.select_one('astro-island[component-url*="ProductDetailPage"][props]')
+        if island:
+            product = json.loads(island['props'])['product'][1]
+            colors = cls._decode_astro(product['colors'])
+            storage = cls._decode_astro(product['storage'])
+            mapping = cls._decode_astro(product['colorMemorySkuMap'])
+            capacities = {item['id']: item['capacity'] for item in storage}
+            for color in colors:
+                for memory_id, sku in mapping.get(color['skuCode'], {}).items():
+                    variants[sku] = {'sku': sku, 'color': color['name'],
+                                     'memory': capacities[memory_id]}
+        return variants
 
     def getter(self):
         families = self._get_families()
@@ -196,8 +244,7 @@ class MetroPCS:
 
     def parser(self, rows):
         if not rows:
-            print('No products found!')
-            return
+            raise RuntimeError('No products found; README was not updated')
         len_name = max(len(row['name']) for row in rows)
         print(f'MetroPCS\t{time.strftime("%m/%d/%Y", time.localtime())}{" " * max(len_name - 16, 0)}\t'
               f'{"color":16s}\tmemory\teSIM\tprice\t{"status":13s}\t{"Shipping from":10s}\t{"to":10s}')
@@ -215,11 +262,13 @@ class MetroPCS:
             f.write(self.markdown)
 
     def wrapper(self):
-        self.arg_parser()
-        self.parser(self.getter())
-        if self.table:
-            self.writer()
-        self._driver.quit()
+        try:
+            self.arg_parser()
+            self.parser(self.getter())
+            if self.table:
+                self.writer()
+        finally:
+            self._driver.quit()
 
 
 if __name__ == '__main__':
