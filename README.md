@@ -3,7 +3,7 @@ Availability and estimated shipping dates of cell-phones sold by MetroPCS online
 ## Storage
 Price filter: promotional price < $500 USD.
 
-|MetroPCS 11/06/2026|color|memory|eSIM|price|status|shipping from|shipping to|
+|MetroPCS 11/07/2026|color|memory|eSIM|price|status|shipping from|shipping to|
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 |Apple iPhone 16e|Black|128GB|True|99.99|AVAILABLE|11/06/2026|11/09/2026|
 |Apple iPhone 17e|White|256GB|True|449.99|AVAILABLE|11/06/2026|11/09/2026|
